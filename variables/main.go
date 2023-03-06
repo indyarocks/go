@@ -5,16 +5,21 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"time"
 )
 
 const prompt = " don't type your number just press ENTER when ready."
 
 func main() {
-	// rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano())
 	var firstNumber = rand.Intn(8) + 2
 	var secondNumber = rand.Intn(8) + 2
 	var subtraction = rand.Intn(8) + 2
 	var answer = firstNumber*secondNumber - subtraction
+	playTheGame(firstNumber, secondNumber, subtraction, answer)
+}
+
+func playTheGame(firstNumber int, secondNumber int, subtraction int, answer int) {
 
 	reader := bufio.NewReader(os.Stdin)
 
