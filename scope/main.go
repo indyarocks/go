@@ -5,9 +5,9 @@ import "fmt"
 var one = "One"
 
 func main() {
-	var one = "New One"
+	var somethingElse = "This is a block level variable"
 
-	fmt.Println(one)
+	fmt.Println(somethingElse)
 
 	myFunc()
 
