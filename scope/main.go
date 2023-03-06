@@ -17,6 +17,8 @@ func main() {
 	newString := packageone.PublicVar
 	fmt.Println("From packageone: ", newString)
 
+	packageone.Exported()
+
 }
 
 func myFunc() {
