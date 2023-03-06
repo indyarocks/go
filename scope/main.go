@@ -2,8 +2,10 @@ package main
 
 import "fmt"
 
+var one = "One"
+
 func main() {
-	var one = "One"
+	var one = "New One"
 
 	fmt.Println(one)
 
