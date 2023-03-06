@@ -4,8 +4,9 @@ import "fmt"
 
 func main() {
 	fmt.Println("Hello-world")
-	var whatToSay string
-	whatToSay = "This is a variable"
+	// var whatToSay string
+	// whatToSay = "This is a variable"
+	whatToSay := "This is another variable."
 	sayHelloWorld(whatToSay)
 }
 
