@@ -2,13 +2,8 @@ package packageone
 
 import "fmt"
 
-var privateVar = "I am private"
-var PublicVar = "I am public (or exported)"
+var PackageVar = "Packageone PackageVar"
 
-func notExported() {
-	fmt.Println("Inside private function")
-}
-
-func Exported() {
-	fmt.Println("Inside exported function")
+func PrintMe(variable string) {
+	fmt.Print(variable)
 }
