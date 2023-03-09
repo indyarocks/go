@@ -24,25 +24,34 @@ func prompt() {
 }
 
 func readString(s string) string {
-	fmt.Println(s)
-	prompt()
-	userInput, _ := reader.ReadString('\n')
-	userInput = strings.Replace(userInput, "\r\n", "", -1)
-	userInput = strings.Replace(userInput, "\n", "", -1)
-	return userInput
+	for {
+		fmt.Println(s)
+		prompt()
+		userInput, _ := reader.ReadString('\n')
+		userInput = strings.Replace(userInput, "\r\n", "", -1)
+		userInput = strings.Replace(userInput, "\n", "", -1)
+
+		if userInput == "" {
+			fmt.Println("Please enter your name")
+		} else {
+			return userInput
+		}
+	}
 }
 
 func readInt(s string) int {
-	fmt.Println(s)
-	prompt()
-	userInput, _ := reader.ReadString('\n')
-	userInput = strings.Replace(userInput, "\r\n", "", -1)
-	userInput = strings.Replace(userInput, "\n", "", -1)
+	for {
+		fmt.Println(s)
+		prompt()
+		userInput, _ := reader.ReadString('\n')
+		userInput = strings.Replace(userInput, "\r\n", "", -1)
+		userInput = strings.Replace(userInput, "\n", "", -1)
 
-	num, err := strconv.Atoi(userInput)
-	if err != nil {
-		fmt.Println("Please enter a whole number")
+		num, err := strconv.Atoi(userInput)
+		if err != nil {
+			fmt.Println("Please enter a whole number")
+		} else {
+			return num
+		}
 	}
-
-	return num
 }
