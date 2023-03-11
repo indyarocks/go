@@ -34,7 +34,7 @@ func main() {
 	fmt.Println("Your name is", user.userName, "and you are", user.userAge, "years old.")
 	fmt.Println("Your name is "+user.userName+". You are", user.userAge, "years old.")
 	fmt.Println(fmt.Sprintf("Your name is %s. You are %d years old.", user.userName, user.userAge))
-	fmt.Printf("Your name is %s. You are %d years old. Your favorite number is %.4f. You own a dog: %t", user.userName, user.userAge, user.favoriteNumber, user.OwnsADog)
+	fmt.Printf("Your name is %s. You are %d years old. Your favorite number is %.4f. You own a dog: %t\n", user.userName, user.userAge, user.favoriteNumber, user.OwnsADog)
 }
 
 func prompt() {
@@ -92,7 +92,6 @@ func readFloat(s string) float64 {
 }
 
 func readBool(s string) bool {
-	fmt.Println(s)
 	err := keyboard.Open()
 	if err != nil {
 		log.Fatal(err)
@@ -101,18 +100,21 @@ func readBool(s string) bool {
 	defer func() {
 		_ = keyboard.Close()
 	}()
+
 	for {
+		fmt.Println(s)
 		prompt()
 		char, _, err := keyboard.GetSingleKey()
 
 		if err != nil {
 			log.Fatal(err)
+		}
+		if strings.ToLower(string(char)) != "y" && strings.ToLower(string(char)) != "n" {
+			fmt.Println("Please type y or n")
+		} else if strings.ToLower(string(char)) == "n" {
+			return false
 		} else {
-			if char == 'y' || char == 'Y' {
-				return true
-			} else {
-				return false
-			}
+			return true
 		}
 	}
 }
