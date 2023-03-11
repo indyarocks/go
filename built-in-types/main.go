@@ -3,8 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
+
+	"github.com/eiannone/keyboard"
 )
 
 var reader *bufio.Reader
@@ -57,6 +60,18 @@ func main() {
 		}
 	}
 
+	for {
+		fmt.Println("Enter y/n")
+		char := readKeystroke()
+		fmt.Println("You entered", string(char))
+		if char != 'y' && char != 'n' {
+			fmt.Println("Please enter y/n")
+		} else {
+			fmt.Println("You entered", string(char))
+			break
+		}
+	}
+
 }
 
 func readAndTrimString() string {
@@ -64,4 +79,21 @@ func readAndTrimString() string {
 	userInput = strings.Replace(userInput, "\r\n", "", -1)
 	userInput = strings.Replace(userInput, "\n", "", -1)
 	return userInput
+}
+
+func readKeystroke() rune {
+	err := keyboard.Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer func() {
+		_ = keyboard.Close()
+	}()
+
+	char, _, err := keyboard.GetSingleKey()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return char
 }
