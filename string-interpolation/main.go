@@ -10,16 +10,25 @@ import (
 
 var reader *bufio.Reader
 
+type User struct {
+	userName       string
+	userAge        int
+	favoriteNumber float64
+}
+
 func main() {
 	reader = bufio.NewReader(os.Stdin)
-	userName := readString("What is your name?")
+	var user User
+	user.userName = readString("What is your name?")
 
-	userAge := readInt("How old are you?")
+	user.userAge = readInt("How old are you?")
 
-	fmt.Println("Your name is", userName, "and you are", userAge, "years old.")
-	fmt.Println("Your name is "+userName+". You are", userAge, "years old.")
-	fmt.Println(fmt.Sprintf("Your name is %s. You are %d years old.", userName, userAge))
-	fmt.Printf("Your name is %s. You are %d years old.\n", userName, userAge)
+	user.favoriteNumber = readFloat("Your favorite numer?")
+
+	fmt.Println("Your name is", user.userName, "and you are", user.userAge, "years old.")
+	fmt.Println("Your name is "+user.userName+". You are", user.userAge, "years old.")
+	fmt.Println(fmt.Sprintf("Your name is %s. You are %d years old.", user.userName, user.userAge))
+	fmt.Printf("Your name is %s. You are %d years old. Your favorite number is %.4f\n", user.userName, user.userAge, user.favoriteNumber)
 }
 
 func prompt() {
@@ -53,6 +62,23 @@ func readInt(s string) int {
 		num, err := strconv.Atoi(userInput)
 		if err != nil {
 			fmt.Println("Please enter a whole number")
+		} else {
+			return num
+		}
+	}
+}
+
+func readFloat(s string) float64 {
+	for {
+		fmt.Println(s)
+		prompt()
+
+		userInput, _ := reader.ReadString('\n')
+		userInput = strings.Replace(userInput, "\r\n", "", -1)
+		userInput = strings.Replace(userInput, "\n", "", -1)
+		num, err := strconv.ParseFloat(userInput, 64)
+		if err != nil {
+			fmt.Println("Please enter valid number")
 		} else {
 			return num
 		}
