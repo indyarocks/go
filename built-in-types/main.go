@@ -20,4 +20,15 @@ func main() {
 	myFloat64 = 100.1
 
 	log.Println(myInt, myUint, myFloat, myFloat64)
+
+	myString := "Trevor"
+	log.Println(myString)
+
+	myString = "Chandan"
+	log.Println(myString)
+
+	var myBool = true
+	myBool = false
+
+	log.Println(myBool)
 }
