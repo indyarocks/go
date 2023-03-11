@@ -25,4 +25,15 @@ func main() {
 	myCar.NumberOfTires = 4
 	myCar.Luxury = false
 	myCar.Make = "Volksvagan"
+
+	yourCar := Car{
+		NumberOfTires: 4,
+		Luxury:        true,
+		BucketSeats:   true,
+		Make:          "Volvo",
+		Model:         "XC90",
+		Year:          2019,
+	}
+
+	fmt.Printf("My car is a %d %t %t %s %s %d", yourCar.NumberOfTires, yourCar.Luxury, yourCar.BucketSeats, yourCar.Make, yourCar.Model, yourCar.Year)
 }
