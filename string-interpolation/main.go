@@ -3,9 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/eiannone/keyboard"
 )
 
 var reader *bufio.Reader
@@ -14,6 +17,7 @@ type User struct {
 	userName       string
 	userAge        int
 	favoriteNumber float64
+	OwnsADog       bool
 }
 
 func main() {
@@ -25,10 +29,12 @@ func main() {
 
 	user.favoriteNumber = readFloat("Your favorite numer?")
 
+	user.OwnsADog = readBool("Do you own a dog (y/n)?")
+
 	fmt.Println("Your name is", user.userName, "and you are", user.userAge, "years old.")
 	fmt.Println("Your name is "+user.userName+". You are", user.userAge, "years old.")
 	fmt.Println(fmt.Sprintf("Your name is %s. You are %d years old.", user.userName, user.userAge))
-	fmt.Printf("Your name is %s. You are %d years old. Your favorite number is %.4f\n", user.userName, user.userAge, user.favoriteNumber)
+	fmt.Printf("Your name is %s. You are %d years old. Your favorite number is %.4f. You own a dog: %t", user.userName, user.userAge, user.favoriteNumber, user.OwnsADog)
 }
 
 func prompt() {
@@ -81,6 +87,32 @@ func readFloat(s string) float64 {
 			fmt.Println("Please enter valid number")
 		} else {
 			return num
+		}
+	}
+}
+
+func readBool(s string) bool {
+	fmt.Println(s)
+	err := keyboard.Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer func() {
+		_ = keyboard.Close()
+	}()
+	for {
+		prompt()
+		char, _, err := keyboard.GetSingleKey()
+
+		if err != nil {
+			log.Fatal(err)
+		} else {
+			if char == 'y' || char == 'Y' {
+				return true
+			} else {
+				return false
+			}
 		}
 	}
 }
