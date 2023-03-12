@@ -26,4 +26,9 @@ func main() {
 	staff.OverPaidLimit = 10000
 	log.Println("OverPaid Staffs", myStaff.OverPaid())
 	log.Println("UnderPaid Staffs", myStaff.UnderPaid())
+
+	myMap := make(map[int]string)
+	myMap[1] = "hi"
+	myMap[2] = "bye"
+	log.Println(myMap)
 }
