@@ -24,5 +24,6 @@ func main() {
 	log.Println(myStaff.OverPaid())
 	fmt.Println()
 	staff.OverPaidLimit = 10000
-	log.Println(myStaff.OverPaid())
+	log.Println("OverPaid Staffs", myStaff.OverPaid())
+	log.Println("UnderPaid Staffs", myStaff.UnderPaid())
 }
