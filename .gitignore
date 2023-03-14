@@ -1,3 +1,5 @@
 .DS_Store
 dump.rdb
 Hello-world-go/eliza
+*__debug_bin
+.idea/*
