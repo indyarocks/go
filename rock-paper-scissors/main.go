@@ -18,7 +18,7 @@ const (
 
 func main() {
 	playerChoice := ""
-	//playerValue := -1
+	playerValue := -1
 
 	computerChoice := rand.Intn(3)
 
@@ -33,16 +33,14 @@ func main() {
 
 	fmt.Println()
 	if lowerPlayerChoice == "rock" {
-		fmt.Println("You choose: ", playerChoice, "Your value: ", ROCK)
-		fmt.Println("Computer choose:", computerChoice)
+		playerValue = ROCK
 	} else if lowerPlayerChoice == "paper" {
-		fmt.Println("You choose: ", playerChoice, "Your value: ", PAPER)
-		fmt.Println("Computer choose:", computerChoice)
+		playerValue = PAPER
 	} else if lowerPlayerChoice == "scissors" {
-		fmt.Println("You choose: ", playerChoice, "Your value: ", SCISSORS)
-		fmt.Println("Computer choose:", computerChoice)
+		playerValue = SCISSORS
 	}
-
+	fmt.Println("You choose: ", playerChoice, "Your value: ", playerValue)
+	fmt.Println("Computer choose:", computerChoice)
 }
 
 func clearScreen() {
