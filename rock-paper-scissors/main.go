@@ -39,8 +39,21 @@ func main() {
 	} else if lowerPlayerChoice == "scissors" {
 		playerValue = SCISSORS
 	}
+
+	switch computerChoice {
+	case ROCK:
+		fmt.Println("Computer choose: ROCK")
+		break
+	case PAPER:
+		fmt.Println("Computer choose: PAPER")
+		break
+	case SCISSORS:
+		fmt.Println("Computer choose: SCISSORS")
+		break
+	default:
+	}
 	fmt.Println("You choose: ", playerChoice, "Your value: ", playerValue)
-	fmt.Println("Computer choose:", computerChoice)
+
 }
 
 func clearScreen() {
