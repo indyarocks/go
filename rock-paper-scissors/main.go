@@ -54,6 +54,35 @@ func main() {
 	}
 	fmt.Println("You choose: ", playerChoice, "Your value: ", playerValue)
 
+	if playerValue == computerChoice {
+		fmt.Println("It's a draw!")
+	} else {
+		switch playerValue {
+		case ROCK:
+			if computerChoice == PAPER {
+				fmt.Println("Computer wins!")
+			} else {
+				fmt.Println("Player wins!")
+			}
+			break
+		case PAPER:
+			if computerChoice == SCISSORS {
+				fmt.Println("Computer wins!")
+			} else {
+				fmt.Println("Player wins!")
+			}
+			break
+		case SCISSORS:
+			if computerChoice == ROCK {
+				fmt.Println("Computer wins!")
+			} else {
+				fmt.Println("Player wins!")
+			}
+			break
+		default:
+			fmt.Println("Invalid choice")
+		}
+	}
 }
 
 func clearScreen() {
