@@ -48,4 +48,24 @@ func main() {
 	fmt.Println("Index of Go", strings.Index(newString, "Go"))
 	fmt.Println("Index of Python", strings.Index(newString, "Python"))
 	fmt.Println("Index of last Go", strings.LastIndex(newString, "Go"))
+
+	str := "alpha alpha alpha alpha alpha"
+	newStr := replaceNth(str, "alpha", "male", 3)
+	fmt.Println(newStr)
+}
+
+func replaceNth(s, old, new string, n int) string {
+	i := 0
+	for j := 1; j <= n; j++ {
+		x := strings.Index(s[i:], old)
+		if x < 0 { // Counldn't find
+			break
+		}
+		i += x
+		if j == n {
+			return s[:i] + new + s[i+len(old):]
+		}
+		i += len(old)
+	}
+	return s
 }
