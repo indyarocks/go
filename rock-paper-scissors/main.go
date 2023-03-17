@@ -40,13 +40,5 @@ func main() {
 			<-game.RoundChan
 		}
 	}
-	//fmt.Println("Game over!")
-	//fmt.Println("Here is the result:")
-	//if playerScore > computerScore {
-	//	fmt.Println("Player wins!")
-	//} else {
-	//	fmt.Println("Computer wins!")
-	//}
-	//fmt.Printf("Computer wins %d/3\n", computerScore)
-	//fmt.Printf("Player wins %d/3\n", playerScore)
+	game.PrintSummary()
 }

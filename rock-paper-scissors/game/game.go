@@ -148,3 +148,15 @@ func (g *Game) playerWins() {
 	g.Round.PlayerScore++
 	g.DisplayChan <- "Player wins!"
 }
+
+func (g *Game) PrintSummary() {
+	fmt.Println("Game over!")
+	fmt.Println("Here is the result:")
+	if g.Round.PlayerScore > g.Round.ComputerScore {
+		fmt.Println("Player wins!")
+	} else {
+		fmt.Println("Computer wins!")
+	}
+	fmt.Printf("Computer wins %d/3\n", g.Round.ComputerScore)
+	fmt.Printf("Player wins %d/3\n", g.Round.PlayerScore)
+}
