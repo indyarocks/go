@@ -63,6 +63,8 @@ func main() {
 	}
 
 	fmt.Println(strings.Title(strings.ToLower(myString)))
+	testStr := "012345"
+	fmt.Println(testStr[1:5])
 }
 
 func replaceNth(s, old, new string, n int) string {
