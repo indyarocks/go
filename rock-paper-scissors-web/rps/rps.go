@@ -13,8 +13,14 @@ const (
 	DRAW         = 3
 )
 
+type Round struct {
+	Winner         int    `json:"winner"`
+	ComputerChoice string `json:"computer_choice"`
+	RoundResult    string `json:"round_result"`
+}
+
 // PlayRound - Arguments - Current Round winner, Computer Choice, Result
-func PlayRound(playerValue int) (int, string, string) {
+func PlayRound(playerValue int) Round {
 	computerValue := rand.Intn(3)
 	computerChoice := ""
 	roundResult := ""
@@ -44,5 +50,10 @@ func PlayRound(playerValue int) (int, string, string) {
 		winner = COMPUTERWINS
 	}
 
-	return winner, computerChoice, roundResult
+	result := Round{
+		Winner:         winner,
+		ComputerChoice: computerChoice,
+		RoundResult:    roundResult,
+	}
+	return result
 }
