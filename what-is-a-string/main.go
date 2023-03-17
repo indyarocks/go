@@ -52,6 +52,17 @@ func main() {
 	str := "alpha alpha alpha alpha alpha"
 	newStr := replaceNth(str, "alpha", "male", 3)
 	fmt.Println(newStr)
+
+	myString := "This is a clear EXAMPLE of why we search in one case only."
+	searchString := strings.ToLower(myString)
+
+	if strings.Contains(searchString, "this") {
+		fmt.Println("Found it")
+	} else {
+		fmt.Println("Not found")
+	}
+
+	fmt.Println(strings.Title(strings.ToLower(myString)))
 }
 
 func replaceNth(s, old, new string, n int) string {
