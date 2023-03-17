@@ -60,10 +60,12 @@ func (g *Game) ClearScreen() {
 }
 
 func (g *Game) PrintIntro() {
-	fmt.Println("Rock, Paper & Scissors")
-	fmt.Println("======================")
-	fmt.Println("Let the game begin. Best of 3 wins!")
-	fmt.Println("===================================")
+	g.DisplayChan <- fmt.Sprintf(`
+Rock, Paper & Scissors
+======================
+Let the game begin. Best of 3 wins!
+===================================
+`)
 }
 
 func (g *Game) PlayRound() bool {
@@ -92,13 +94,13 @@ func (g *Game) PlayRound() bool {
 
 	switch computerValue {
 	case ROCK:
-		fmt.Println("Computer choose: ROCK")
+		g.DisplayChan <- "Computer choose: ROCK"
 		break
 	case PAPER:
-		fmt.Println("Computer choose: PAPER")
+		g.DisplayChan <- "Computer choose: PAPER"
 		break
 	case SCISSORS:
-		fmt.Println("Computer choose: SCISSORS")
+		g.DisplayChan <- "Computer choose: SCISSORS"
 		break
 	default:
 	}
@@ -150,13 +152,13 @@ func (g *Game) playerWins() {
 }
 
 func (g *Game) PrintSummary() {
-	fmt.Println("Game over!")
-	fmt.Println("Here is the result:")
+	g.DisplayChan <- "Game over!"
+	g.DisplayChan <- "Here is the result:"
 	if g.Round.PlayerScore > g.Round.ComputerScore {
-		fmt.Println("Player wins!")
+		g.DisplayChan <- "Player wins!"
 	} else {
-		fmt.Println("Computer wins!")
+		g.DisplayChan <- "Computer wins!"
 	}
-	fmt.Printf("Computer wins %d/3\n", g.Round.ComputerScore)
-	fmt.Printf("Player wins %d/3\n", g.Round.PlayerScore)
+	g.DisplayChan <- fmt.Sprintf("Computer wins %d/3\n", g.Round.ComputerScore)
+	g.DisplayChan <- fmt.Sprintf("Player wins %d/3\n", g.Round.PlayerScore)
 }
