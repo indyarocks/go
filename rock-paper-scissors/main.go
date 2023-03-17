@@ -18,6 +18,9 @@ const (
 
 var reader *bufio.Reader
 
+var chan1 chan string
+var chan2 chan string
+
 func getUserInput() string {
 	reader = bufio.NewReader(os.Stdin)
 	playerChoice, _ := reader.ReadString('\n')
@@ -38,11 +41,21 @@ func getPlayerValue(playerChoice string) int {
 	return playerValue
 }
 
+func computerWins(score int) int {
+	fmt.Println("Computer wins!")
+	return score + 1
+}
+
+func playerWins(score int) int {
+	fmt.Println("Player wins!")
+	return score + 1
+}
+
 func main() {
 	playerChoice := ""
 	playerValue := -1
-	playerWins := 0
-	computerWins := 0
+	playerScore := 0
+	computerScore := 0
 
 	clearScreen()
 	fmt.Println("Let the game begin. Best of 3 wins!")
@@ -76,29 +89,23 @@ func main() {
 			switch playerValue {
 			case ROCK:
 				if computerValue == PAPER {
-					computerWins += 1
-					fmt.Println("Computer wins!")
+					computerScore = computerWins(computerScore)
 				} else {
-					playerWins += 1
-					fmt.Println("Player wins!")
+					playerScore = playerWins(playerScore)
 				}
 				break
 			case PAPER:
 				if computerValue == SCISSORS {
-					computerWins += 1
-					fmt.Println("Computer wins!")
+					computerScore = computerWins(computerScore)
 				} else {
-					playerWins += 1
-					fmt.Println("Player wins!")
+					playerScore = playerWins(playerScore)
 				}
 				break
 			case SCISSORS:
 				if computerValue == ROCK {
-					computerWins += 1
-					fmt.Println("Computer wins!")
+					computerScore = computerWins(computerScore)
 				} else {
-					playerWins += 1
-					fmt.Println("Player wins!")
+					playerScore = playerWins(playerScore)
 				}
 				break
 			default:
@@ -111,8 +118,13 @@ func main() {
 	}
 	fmt.Println("Game over!")
 	fmt.Println("Here is the result:")
-	fmt.Printf("Computer wins %d/3\n", computerWins)
-	fmt.Printf("Player wins %d/3\n", playerWins)
+	if playerScore > computerScore {
+		fmt.Println("Player wins!")
+	} else {
+		fmt.Println("Computer wins!")
+	}
+	fmt.Printf("Computer wins %d/3\n", computerScore)
+	fmt.Printf("Player wins %d/3\n", playerScore)
 }
 
 func clearScreen() {
