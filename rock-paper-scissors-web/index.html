@@ -30,6 +30,11 @@
     </div>
 <script>
     function choose(x) {
+        fetch("/play?c=" + x)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
         if (x == 1) {
             document.getElementById("player_choice").innerHTML = "You clicked paper"
         } else if (x == 2) {
