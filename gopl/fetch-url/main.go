@@ -25,6 +25,7 @@ func main() {
 			log.Fatal(err)
 			os.Exit(1)
 		}
+		fmt.Println(resp.Status)
 		//body, err := ioutil.ReadAll(resp.Body)
 		//if err != nil {
 		//	fmt.Fprintf(os.Stderr, "Error: %v\n", err)
