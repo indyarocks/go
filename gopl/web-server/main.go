@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"sync"
 	"webServer/lisssajous"
 )
@@ -40,7 +41,8 @@ func counter(w http.ResponseWriter, r *http.Request) {
 }
 
 func lissajous(w http.ResponseWriter, r *http.Request) {
-	lisssajous.Lissajous(w)
+	cycles, _ := strconv.Atoi(r.URL.Query().Get("cycles"))
+	lisssajous.Lissajous(w, cycles)
 }
 
 func main() {
