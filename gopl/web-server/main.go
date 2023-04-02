@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"sync"
+	"webServer/lisssajous"
 )
 
 var count int
@@ -23,8 +24,14 @@ func counter(w http.ResponseWriter, r *http.Request) {
 	mu.Unlock()
 }
 
+func lissajous(w http.ResponseWriter, r *http.Request) {
+	lisssajous.Lissajous(w)
+}
+
 func main() {
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/count", counter)
+	http.HandleFunc("/lissajous", lissajous)
+	fmt.Println("Starting server on port 8080....")
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
