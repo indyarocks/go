@@ -44,8 +44,9 @@ func dup3(args []string) {
 func dup2(args []string) {
 	fmt.Println(args)
 	counts := make(map[string]int)
+	fileNames := make(map[string][]string)
 	if len(args) == 0 {
-		countLines(os.Stdin, counts)
+		countLines(os.Stdin, counts, fileNames)
 	} else {
 		for _, fileName := range args {
 			file, err := os.Open(fileName)
@@ -53,11 +54,11 @@ func dup2(args []string) {
 				fmt.Fprintf(os.Stderr, "dups: %v\n", err)
 				continue
 			}
-			countLines(file, counts)
+			countLines(file, counts, fileNames)
 			file.Close()
 		}
 		for line, count := range counts {
-			fmt.Printf("%d \t %s\n", count, line)
+			fmt.Printf("%s: \t%d \t %s\n", fileNames[line], count, line)
 		}
 	}
 
@@ -80,9 +81,15 @@ func dup1() {
 	}
 }
 
-func countLines(file *os.File, counts map[string]int) {
+func countLines(file *os.File, counts map[string]int, fileNames map[string][]string) {
 	input := bufio.NewScanner(file)
 	for input.Scan() {
-		counts[input.Text()]++
+		text := input.Text()
+		counts[text]++
+		//fmt.Printf("joined slice: %v\n", strings.Join(fileNames[text], ","))
+		//fmt.Printf("file name: %v\n", file.Name())
+		if counts[text] > 1 && strings.Index(strings.Join(fileNames[text], ","), file.Name()) < 0 {
+			fileNames[text] = append(fileNames[text], file.Name())
+		}
 	}
 }
