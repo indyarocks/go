@@ -1,7 +1,7 @@
 package tempconv
 
 func FtoC(f Fahrenheit) Celcius {
-	return Celcius((f - 32) * (5 / 9))
+	return Celcius((f - 32) * (5.0 / 9))
 }
 
 func CtoF(c Celcius) Fahrenheit {
