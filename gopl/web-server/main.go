@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"sync"
 	"webServer/lisssajous"
+	threed_surface "webServer/threed-surface"
 )
 
 var count int
@@ -45,10 +46,16 @@ func lissajous(w http.ResponseWriter, r *http.Request) {
 	lisssajous.Lissajous(w, cycles)
 }
 
+func surface(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "image/svg+xml")
+	threed_surface.Surface()
+}
+
 func main() {
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/count", counter)
 	http.HandleFunc("/lissajous", lissajous)
+	http.HandleFunc("/surface", surface)
 	fmt.Println("Starting server on port 8080....")
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
