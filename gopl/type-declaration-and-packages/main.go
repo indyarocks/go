@@ -22,4 +22,9 @@ func main() {
 		c := tempconv.Celcius(t)
 		fmt.Printf("%s = %s, %s = %s\n", f, tempconv.FtoC(f), c, tempconv.CtoF(c))
 	}
+
+	medals := []string{"gold", "silver", "bronze"}
+	for i := len(medals) - 1; i >= 0; i-- {
+		fmt.Println(medals[i])
+	}
 }
