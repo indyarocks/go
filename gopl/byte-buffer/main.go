@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"strings"
 )
 
 func intToString(a []int) string {
@@ -26,6 +27,14 @@ func commaRecursive(s string) string {
 	return commaRecursive(s[:n-3]) + "," + commaRecursive(s[n-3:])
 }
 
+func commaRecursiveDecimalPart(s string) string {
+	n := len(s)
+	if n <= 3 {
+		return s
+	}
+	return commaRecursive(s[:n-3]) + "," + commaRecursive(s[n-3:])
+}
+
 func byteBuffer(s string) string {
 	var buff bytes.Buffer
 	for i := 0; i < len(s); i++ {
@@ -36,6 +45,11 @@ func byteBuffer(s string) string {
 		fmt.Fprintf(&buff, "%v", string(s[i]))
 	}
 	return buff.String()
+}
+
+func commaFloat(s string) string {
+	integralPart, decimalPart := strings.Split('.')
+	result := commaRecursive(integralPart) + '.' +
 }
 
 func main() {
