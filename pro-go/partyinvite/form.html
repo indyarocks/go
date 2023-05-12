@@ -1,0 +1,38 @@
+{{ define "body" }}
+  <div class="h5 bg-primary text-white text-center m-2 p-2">RSVP</div>
+
+{{ if gt (len .Errors) 0 }}
+  <ul class="text-danger mt-3">
+      {{ range .Errors }}
+        <li>{{ . }}</li>
+      {{ end }}
+  </ul>
+{{ end }}
+
+  <form method="POST" class="m-2">
+      <div class="form-group my-1">
+          <label for="name">Your name:</label>
+          <input name="name" type="text" class="form-control" placeholder="Enter your name" value="{{.Name}}">
+      </div>
+      <div class="form-group my-1">
+          <label for="email">Your email:</label>
+          <input name="email" type="email" class="form-control" placeholder="Enter your email" value="{{.Email}}">
+          <small id="nameHelp" class="form-text text-muted">I'll not share your email with anyone :D </small>
+      </div>
+      <div class="form-group my-1">
+          <label for="phone">Phone Number</label>
+          <input name="phone" type="text" class="form-control" placeholder="Enter your phone number" value="{{.Phone}}">
+          <small id="phoneHelp" class="form-text text-muted">I'll not share your phone number with anyone :D </small>
+      </div>
+      <div class="form-group my-1">
+          <label for="willAttend">Will you be attending?</label>
+          <select name="willattend" class="form-select">
+              <option value="true" {{if .WillAttend}}selected{{end}}>Yes, I'll be there</option>
+              <option calue="false" {{if not .WillAttend}}selected{{end}}>No, I can't come</option>
+          </select>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">
+          Submit RSVP
+      </button>
+  </form>
+{{ end }}
