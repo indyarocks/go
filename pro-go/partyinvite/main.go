@@ -54,10 +54,26 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
 			WillAttend: request.Form["willattend"][0] == "true",
 		}
 		responses = append(responses, &responseData)
-		if responseData.WillAttend {
-			templates["thanks"].Execute(writer, responseData.Name)
+		errors := []string{}
+		if responseData.Name == "" {
+			errors = append(errors, "Name can't be blank")
+		}
+		if responseData.Email == "" {
+			errors = append(errors, "Email can't be blank")
+		}
+		if responseData.Phone == "" {
+			errors = append(errors, "Phone can't be blank")
+		}
+		if len(errors) > 0 {
+			templates["form"].Execute(writer, formData{
+				Rsvp: &responseData, Errors: errors,
+			})
 		} else {
-			templates["sorry"].Execute(writer, responseData.Name)
+			if responseData.WillAttend {
+				templates["thanks"].Execute(writer, responseData.Name)
+			} else {
+				templates["sorry"].Execute(writer, responseData.Name)
+			}
 		}
 	}
 }
