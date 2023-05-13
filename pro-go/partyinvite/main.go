@@ -11,6 +11,11 @@ type Rsvp struct {
 	WillAttend         bool
 }
 
+type formData struct {
+	*Rsvp
+	Errors []string
+}
+
 var responses = make([]*Rsvp, 0, 10)
 
 var templates = make(map[string]*template.Template, 3)
@@ -35,10 +40,33 @@ func listHandler(writer http.ResponseWriter, request *http.Request) {
 	templates["list"].Execute(writer, responses)
 }
 
+func formHandler(writer http.ResponseWriter, request *http.Request) {
+	if request.Method == http.MethodGet {
+		templates["form"].Execute(writer, formData{
+			Rsvp: &Rsvp{}, Errors: []string{},
+		})
+	} else if request.Method == http.MethodPost {
+		request.ParseForm()
+		responseData := Rsvp{
+			Name:       request.Form["name"][0],
+			Email:      request.Form["email"][0],
+			Phone:      request.Form["phone"][0],
+			WillAttend: request.Form["willattend"][0] == "true",
+		}
+		responses = append(responses, &responseData)
+		if responseData.WillAttend {
+			templates["thanks"].Execute(writer, responseData.Name)
+		} else {
+			templates["sorry"].Execute(writer, responseData.Name)
+		}
+	}
+}
+
 func main() {
 	loadTemplates()
 	http.HandleFunc("/", welcomeHandler)
 	http.HandleFunc("/list", listHandler)
+	http.HandleFunc("/form", formHandler)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println(err)

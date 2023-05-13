@@ -28,7 +28,7 @@
           <label for="willAttend">Will you be attending?</label>
           <select name="willattend" class="form-select">
               <option value="true" {{if .WillAttend}}selected{{end}}>Yes, I'll be there</option>
-              <option calue="false" {{if not .WillAttend}}selected{{end}}>No, I can't come</option>
+              <option value="false" {{if not .WillAttend}}selected{{end}}>No, I can't come</option>
           </select>
       </div>
       <button type="submit" class="btn btn-primary mt-3">
