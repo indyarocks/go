@@ -54,6 +54,13 @@ func newSupplierItem(name, category string, price float64, supplier *Supplier) *
 	return &SupplierItem{name, category, price, supplier}
 }
 
+func copySupplierItem(si *SupplierItem) SupplierItem {
+	si_copy := *si
+	si_supplier := *si.Supplier
+	si_copy.Supplier = &si_supplier
+	return si_copy
+}
+
 func main() {
 	p1 := Product{name: "Dota", category: "Esports", price: 0}
 	p2 := Product{name: "League of Legends", category: "Esports", price: 10}
@@ -138,6 +145,18 @@ func main() {
 		newSupplierItem("SI2", "C2", 100, mySupplier),
 	}
 	for _, si := range supplierItems {
+		fmt.Println("Name", si.name, "Supplier", si.Supplier.name, si.Supplier.city)
+	}
+
+	si1 := newSupplierItem("SI1", "C1", 100, mySupplier)
+	si2 := *si1
+	si1.Supplier.name = "Test Supplier"
+	for _, si := range []SupplierItem{*si1, si2} {
+		fmt.Println("Name", si.name, "Supplier", si.Supplier.name, si.Supplier.city)
+	}
+	si3 := copySupplierItem(si1)
+	si1.Supplier.name = "Test Supplier 2"
+	for _, si := range []SupplierItem{*si1, si3} {
 		fmt.Println("Name", si.name, "Supplier", si.Supplier.name, si.Supplier.city)
 	}
 }
