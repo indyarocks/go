@@ -7,12 +7,19 @@ type Product struct {
 	price          float64
 }
 
-func productDetail(product *Product) {
+func usualPrintDetails(product *Product) {
 	fmt.Println("Name:", product.name, "Category:", product.category, "Price:", product.price)
 }
 
-func (product *Product) methodProductDetail() {
-	fmt.Println("Name:", product.name, "Category:", product.category, "Price:", product.price)
+func (product *Product) printDetails() {
+	fmt.Println("Name:", product.name, "Category:", product.category, "Price:", product.calcTax(500, 0.2))
+}
+
+func (product *Product) calcTax(threshold float64, rate float64) float64 {
+	if product.price > threshold {
+		product.price += product.price * rate
+	}
+	return product.price
 }
 
 func main() {
@@ -23,7 +30,7 @@ func main() {
 	}
 
 	for _, product := range products {
-		productDetail(product)
-		product.methodProductDetail()
+		usualPrintDetails(product)
+		product.printDetails()
 	}
 }
