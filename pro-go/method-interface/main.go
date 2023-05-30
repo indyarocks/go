@@ -7,6 +7,10 @@ type Product struct {
 	price          float64
 }
 
+type Supplier struct {
+	name, city string
+}
+
 func usualPrintDetails(product *Product) {
 	fmt.Println("Name:", product.name, "Category:", product.category, "Price:", product.price)
 }
@@ -22,6 +26,10 @@ func (product *Product) calcTax(threshold float64, rate float64) float64 {
 	return product.price
 }
 
+func (supplier *Supplier) printDetails() {
+	fmt.Println("Supplier Name:", supplier.name, "City:", supplier.city)
+}
+
 func main() {
 	products := []*Product{
 		{"iPhone", "Mobile", 1299},
@@ -32,5 +40,15 @@ func main() {
 	for _, product := range products {
 		usualPrintDetails(product)
 		product.printDetails()
+	}
+
+	suppliers := []*Supplier{
+		{"Ali Baba", "China"},
+		{"Amazon", "US"},
+		{"flipkart", "India"},
+	}
+
+	for _, supplier := range suppliers {
+		supplier.printDetails()
 	}
 }
