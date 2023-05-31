@@ -9,6 +9,11 @@ type Expense interface {
 	getCost(annual bool) float64
 }
 
+type Account struct {
+	accountNumber int
+	expenses      []Expense
+}
+
 func usualPrintDetails(product *Product) {
 	fmt.Println("Name:", product.name, "Category:", product.category, "Price:", product.price)
 }
@@ -96,4 +101,17 @@ func main() {
 		fmt.Println("Expense:", expense.getName(), "Cost:", expense.getCost(true))
 	}
 	fmt.Println("Total Expense", calcTotal(expenses))
+
+	account := Account{
+		accountNumber: 101,
+		expenses: []Expense{
+			&Product{"Kindle", "Tablet", 299},
+			&Service{"Painting", 1, 500},
+		},
+	}
+
+	for _, expense := range account.expenses {
+		fmt.Println("Expense", expense.getName(), "Cost:", expense.getCost(true))
+	}
+	fmt.Println("Total", calcTotal(account.expenses))
 }
