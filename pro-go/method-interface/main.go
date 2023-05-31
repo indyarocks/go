@@ -1,16 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-type Product struct {
-	name, category string
-	price          float64
-}
-
-type ProductList []Product
-
-type Supplier struct {
-	name, city string
+type Expense interface {
+	getName() string
+	getCost(annual bool) float64
 }
 
 func usualPrintDetails(product *Product) {
@@ -49,6 +45,13 @@ func (products *ProductList) calcCategoryTotal() map[string]float64 {
 	return total
 }
 
+func calcTotal(expenses []Expense) (total float64) {
+	for _, expense := range expenses {
+		total += expense.getCost(true)
+	}
+	return
+}
+
 func main() {
 	products := []*Product{
 		{"iPhone", "Mobile", 1299},
@@ -80,4 +83,17 @@ func main() {
 	for category, total := range productList.calcCategoryTotal() {
 		fmt.Println("For category", category, "Total", total)
 	}
+
+	insurance := Service{"LIC", 12, 1200}
+	fmt.Println("Service", insurance.description, "Yearly Fee", (insurance.monthlyFee)*float64(insurance.durationMonth))
+
+	expenses := []Expense{
+		&Product{"iPhone", "Mobile", 1499},
+		&Service{"Insurance", 12, 1200},
+	}
+
+	for _, expense := range expenses {
+		fmt.Println("Expense:", expense.getName(), "Cost:", expense.getCost(true))
+	}
+	fmt.Println("Total Expense", calcTotal(expenses))
 }
