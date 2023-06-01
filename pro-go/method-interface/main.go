@@ -93,8 +93,8 @@ func main() {
 	fmt.Println("Service", insurance.description, "Yearly Fee", (insurance.monthlyFee)*float64(insurance.durationMonth))
 
 	expenses := []Expense{
-		&Product{"iPhone", "Mobile", 1499},
-		&Service{"Insurance", 12, 1200},
+		Product{"iPhone", "Mobile", 1499},
+		Service{"Insurance", 12, 1200},
 	}
 
 	for _, expense := range expenses {
@@ -105,8 +105,8 @@ func main() {
 	account := Account{
 		accountNumber: 101,
 		expenses: []Expense{
-			&Product{"Kindle", "Tablet", 299},
-			&Service{"Painting", 1, 500},
+			Product{"Kindle", "Tablet", 299},
+			Service{"Painting", 1, 500},
 		},
 	}
 
@@ -114,4 +114,54 @@ func main() {
 		fmt.Println("Expense", expense.getName(), "Cost:", expense.getCost(true))
 	}
 	fmt.Println("Total", calcTotal(account.expenses))
+
+	serviceExpenses := []Expense{
+		Service{"Insurance", 12, 1200},
+		Service{"Medical", 12, 200},
+		Service{"Luxury", 12, 5000},
+		//Product{"Test Assertion", "Debug", 100}, // It'll error out in panic
+	}
+	for _, expense := range serviceExpenses {
+		s := expense.(Service) // Dynamic Type Assertion
+		fmt.Println("Service:", s.description, "Price:", s.monthlyFee*(float64(s.durationMonth)))
+	}
+
+	expensesWithTypeAssertionCheck := []Expense{
+		Service{"Insurance", 12, 1200},
+		Service{"Medical", 12, 200},
+		&Service{"Luxury", 12, 5000},
+		&Product{"Test Assertion", "Debug", 100},
+		Product{"Test Assertion1", "Debug1", 1000},
+	}
+
+	for _, expense := range expensesWithTypeAssertionCheck {
+		if s, ok := expense.(Service); ok {
+			fmt.Println("Service:", s.description, "Price:", s.monthlyFee*(float64(s.durationMonth)))
+		} else {
+			fmt.Println("Expense", expense.getName(), "Cost", expense.getCost(true))
+		}
+	}
+
+	expensesWithTypeAssertionCheckSwitch := []Expense{
+		Service{"Insurance", 12, 1200},
+		Service{"Medical", 12, 200},
+		&Service{"Luxury", 12, 5000},
+		&Product{"Test Assertion", "Debug", 100},
+		Product{"Test Assertion1", "Debug1", 1000},
+	}
+
+	for _, expense := range expensesWithTypeAssertionCheckSwitch {
+		switch value := expense.(type) {
+		case Service:
+			fmt.Println("Service:", value.description, "Price:", value.monthlyFee*(float64(value.durationMonth)))
+		case Product:
+			fmt.Println("Product:", value.name, "Price:", value.price)
+		case *Service:
+			fmt.Println("Service:", value.description, "Price:", value.monthlyFee*(float64(value.durationMonth)))
+		case *Product:
+			fmt.Println("Product:", value.name, "Price:", value.price)
+		default:
+			fmt.Println("Expense", expense.getName(), "Cost", expense.getCost(true))
+		}
+	}
 }

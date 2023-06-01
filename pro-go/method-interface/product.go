@@ -11,10 +11,10 @@ type Supplier struct {
 	name, city string
 }
 
-func (product *Product) getName() string {
+func (product Product) getName() string {
 	return product.name
 }
 
-func (product *Product) getCost(_ bool) float64 {
+func (product Product) getCost(_ bool) float64 {
 	return product.price
 }
