@@ -57,6 +57,23 @@ func calcTotal(expenses []Expense) (total float64) {
 	return
 }
 
+func processItem(item interface{}) {
+	switch value := item.(type) {
+	case Service:
+		fmt.Println("Service:", value.description, "Price:", value.monthlyFee*(float64(value.durationMonth)))
+	case Product:
+		fmt.Println("Product:", value.name, "Price:", value.price)
+	case *Service:
+		fmt.Println("Service:", value.description, "Price:", value.monthlyFee*(float64(value.durationMonth)))
+	case *Product:
+		fmt.Println("Product:", value.name, "Price:", value.price)
+	case string, bool, int:
+		fmt.Println("Built in type", value)
+	default:
+		fmt.Println("Default", value)
+	}
+}
+
 func main() {
 	products := []*Product{
 		{"iPhone", "Mobile", 1299},
@@ -163,5 +180,23 @@ func main() {
 		default:
 			fmt.Println("Expense", expense.getName(), "Cost", expense.getCost(true))
 		}
+	}
+
+	fmt.Println("Empty interface==================")
+	data := []interface{}{
+		insurance,
+		Service{"Insurance", 12, 1200},
+		Service{"Medical", 12, 200},
+		&Service{"Luxury", 12, 5000},
+		&Product{"Test Assertion", "Debug", 100},
+		Product{"Test Assertion1", "Debug1", 1000},
+		expenses,
+		"Lol string",
+		100,
+		true,
+	}
+
+	for _, item := range data {
+		processItem(item)
 	}
 }
