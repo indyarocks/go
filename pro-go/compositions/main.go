@@ -60,4 +60,14 @@ func main() {
 	//fmt.Println("Price:", bundle.Price(0))
 	fmt.Println("Special Deal Price:", bundle.SpecialDeal.Price(0))
 	fmt.Println("Product Price:", bundle.Product.Price(0))
+
+	products := map[string]store.ItemForSale{
+		"iPhone":      store.NewProduct("iPhone", "Mobile", 1299),
+		"Kayak":       store.NewBoat("Kayak", 279, 1, false),
+		"specialDeal": store.NewSpecialDeal("Weekend Sales", kayak, 50),
+		"rentedYatch": store.NewRentalBoat("Yatch", 100000, 15, true, true, "Chandan", "Darsh"),
+	}
+	for key, p := range products {
+		fmt.Println("Key", key, "Price:", p.Price(0.2))
+	}
 }
