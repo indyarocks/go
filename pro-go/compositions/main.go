@@ -38,4 +38,11 @@ func main() {
 		color.Red("Captain:" + r.Captain)
 		color.Green("First Officer" + r.FirstOfficer)
 	}
+
+	deal := store.NewSpecialDeal("Weekend Special", kayak, 50)
+	dealName, dealPrice, productPrice := deal.GetDetails()
+	color.Green("Deal Name:" + dealName)
+	color.Green("Product Name:" + deal.Product.Name)
+	color.Red("Original Product Price:" + strconv.FormatFloat(productPrice, 'f', 2, 64))
+	color.Green("Discounted Price:" + strconv.FormatFloat(dealPrice, 'f', 2, 64))
 }
