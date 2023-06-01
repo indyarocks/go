@@ -74,6 +74,25 @@ func processItem(item interface{}) {
 	}
 }
 
+func processItemVariadic(items ...interface{}) {
+	for _, item := range items {
+		switch value := item.(type) {
+		case Service:
+			fmt.Println("Service:", value.description, "Price:", value.monthlyFee*(float64(value.durationMonth)))
+		case Product:
+			fmt.Println("Product:", value.name, "Price:", value.price)
+		case *Service:
+			fmt.Println("Service:", value.description, "Price:", value.monthlyFee*(float64(value.durationMonth)))
+		case *Product:
+			fmt.Println("Product:", value.name, "Price:", value.price)
+		case string, bool, int:
+			fmt.Println("Built in type", value)
+		default:
+			fmt.Println("Default", value)
+		}
+	}
+}
+
 func main() {
 	products := []*Product{
 		{"iPhone", "Mobile", 1299},
@@ -198,5 +217,17 @@ func main() {
 
 	for _, item := range data {
 		processItem(item)
+	}
+
+	processItemVariadic(data...)
+	strSlice := []string{
+		"Chandan", "Alok", "Ruby", "Tithi", "Darsh",
+	}
+	myVariadic(strSlice...)
+}
+
+func myVariadic(messages ...string) {
+	for _, message := range messages {
+		fmt.Println(message)
 	}
 }
