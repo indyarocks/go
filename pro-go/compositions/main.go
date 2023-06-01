@@ -40,9 +40,24 @@ func main() {
 	}
 
 	deal := store.NewSpecialDeal("Weekend Special", kayak, 50)
-	dealName, dealPrice, productPrice := deal.GetDetails()
+	dealName, dealPrice, _ := deal.GetDetails()
 	color.Green("Deal Name:" + dealName)
 	color.Green("Product Name:" + deal.Product.Name)
-	color.Red("Original Product Price:" + strconv.FormatFloat(productPrice, 'f', 2, 64))
+	color.Red("Original Product Price:" + strconv.FormatFloat(deal.Product.Price(0), 'f', 2, 64))
 	color.Green("Discounted Price:" + strconv.FormatFloat(dealPrice, 'f', 2, 64))
+
+	//	Promotion Ambiguity - Price method is defined on both SpecialDeal and Product
+	type OfferBundle struct {
+		*store.SpecialDeal
+		*store.Product
+	}
+
+	bundle := OfferBundle{
+		store.NewSpecialDeal("Weekend Special", kayak, 50),
+		store.NewProduct("LifeJacket", "WaterSports", 100),
+	}
+
+	//fmt.Println("Price:", bundle.Price(0))
+	fmt.Println("Special Deal Price:", bundle.SpecialDeal.Price(0))
+	fmt.Println("Product Price:", bundle.Product.Price(0))
 }
