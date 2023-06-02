@@ -70,4 +70,20 @@ func main() {
 	for key, p := range products {
 		fmt.Println("Key", key, "Price:", p.Price(0.2))
 	}
+
+	for key, p := range products {
+		switch value := p.(type) {
+		case *store.Product:
+			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+		case *store.Boat:
+			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+		case *store.SpecialDeal:
+			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+		case *store.RentalBoat:
+			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+		default:
+			fmt.Println("Name:", key, "Price:", p.Price(0.2))
+
+		}
+	}
 }
