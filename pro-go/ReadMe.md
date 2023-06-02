@@ -31,3 +31,21 @@ func (p *Product)Price(tax) float64{
 `Name` can be accessed by either `boat.Product.Name` and `boat.Name`
 `boat.Price(0.2)` or `boat.Product.Price(0.2)` - Both are equivalent.
 
+```go
+type Product struct {
+	Name, Category string
+	Price float64
+}
+
+type ProductGroup []*Product
+
+func (group ProductGroup) CalcTotal() float64{
+	...
+}
+```
+A receiver function can only be defined on `type`, so a receiver function here
+can't be defined on `[]*Product`, thus we need to create `alias type` -
+`ProductGroup` so that it can have a receiver method.
+
+### Interface
+Since GoLang doesn't support inheritance, it provides `interface` to provide similar functionality.
