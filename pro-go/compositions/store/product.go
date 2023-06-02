@@ -5,6 +5,20 @@ type Product struct {
 	price          float64
 }
 
+type Describable interface {
+	GetName() string
+	GetCategory() string
+	ItemForSale
+}
+
+func (p *Product) GetName() string {
+	return p.Name
+}
+
+func (p *Product) GetCategory() string {
+	return p.Category
+}
+
 func NewProduct(name, category string, price float64) *Product {
 	return &Product{name, category, price}
 }

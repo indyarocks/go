@@ -72,18 +72,38 @@ func main() {
 	}
 
 	for key, p := range products {
-		switch value := p.(type) {
+		switch item := p.(type) {
 		case *store.Product:
-			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+			fmt.Println("Name:", item.Name, "Category", item.Category, "Price:", item.Price(0.2))
 		case *store.Boat:
-			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+			fmt.Println("Name:", item.Name, "Category", item.Category, "Price:", item.Price(0.2))
 		case *store.SpecialDeal:
-			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+			fmt.Println("Name:", item.Name, "Category", item.Category, "Price:", item.Price(0.2))
 		case *store.RentalBoat:
-			fmt.Println("Name:", key, "Price:", value.Price(0.2))
+			fmt.Println("Name:", item.Name, "Category", item.Category, "Price:", item.Price(0.2))
 		default:
 			fmt.Println("Name:", key, "Price:", p.Price(0.2))
 
+		}
+	}
+
+	fmt.Println("Describable Interface Alternative=====")
+	for key, p := range products {
+		switch item := p.(type) {
+		case store.Describable:
+			fmt.Println("Name:", item.GetName(), "Category", item.GetCategory(), "Price:", item.(store.ItemForSale).Price(0.2))
+		default:
+			fmt.Println("Name:", key, "Price:", p.Price(0.2))
+		}
+	}
+
+	fmt.Println("Describable Composing Interface Alternative=====")
+	for key, p := range products {
+		switch item := p.(type) {
+		case store.Describable:
+			fmt.Println("Name:", item.GetName(), "Category", item.GetCategory(), "Price:", item.Price(0.2))
+		default:
+			fmt.Println("Name:", key, "Price:", p.Price(0.2))
 		}
 	}
 }
