@@ -20,6 +20,19 @@ func enumerateProducts(productChannel chan<- *Product) {
 	close(productChannel)
 }
 
+func nonBlockingSendEnumerateProducts(productsChannel chan<- *Product) {
+	for _, p := range ProductList {
+		select {
+		case productsChannel <- p:
+			fmt.Println("Sent to channel:", p.Name)
+		default:
+			fmt.Println("Discarding Product", p.Name)
+			time.Sleep(time.Second)
+		}
+	}
+	close(productsChannel)
+}
+
 func main() {
 	fmt.Println("main function started")
 	CalcStoreTotal(Products)
@@ -75,8 +88,7 @@ func main() {
 	//		time.Sleep(time.Millisecond * 500)
 	//	}
 	//}
-alldone:
-	fmt.Println("All values received")
+
 	//receiveDispatches(receiveOnlyChannel)
 	//for {
 	//	if order, open := <-dispatchChannel; open {
@@ -91,6 +103,13 @@ alldone:
 	//	fmt.Println("Dispatch to:", order.Customer, ":", order.Quantity, "x", order.Product.Name)
 	//}
 	//fmt.Println("Channel has been closed")
-
+alldone:
+	fmt.Println("All values received")
+	testProductChannel := make(chan *Product, 5)
+	go nonBlockingSendEnumerateProducts(chan<- *Product(testProductChannel))
+	time.Sleep(time.Second)
+	for p := range testProductChannel {
+		fmt.Println("Received", p.Name)
+	}
 	fmt.Println("main function complete")
 }
