@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 type DispatchNotification struct {
@@ -14,7 +15,7 @@ type DispatchNotification struct {
 var Customers = []string{"Chandan", "Darsh", "Tithi", "Sheenu"}
 
 func DispatchOrder(channel chan<- DispatchNotification) {
-	var orderCount = rand.Intn(10) + 2
+	var orderCount = rand.Intn(10) + 5
 	fmt.Println("Order Count:", orderCount)
 	for i := 0; i < orderCount; i++ {
 		customer := Customers[rand.Intn(len(Customers)-1)]
@@ -28,6 +29,7 @@ func DispatchOrder(channel chan<- DispatchNotification) {
 		//	notification := <-channel
 		//	fmt.Println("Read:", notification.Customer)
 		//}
+		time.Sleep(time.Millisecond * 750)
 	}
 	close(channel)
 }
