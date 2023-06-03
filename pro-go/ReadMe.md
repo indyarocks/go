@@ -49,3 +49,15 @@ can't be defined on `[]*Product`, thus we need to create `alias type` -
 
 ### Interface
 Since GoLang doesn't support inheritance, it provides `interface` to provide similar functionality.
+
+### Adapter to execute a synchornous function asynchronously
+```go
+calcTax := func(price float64) float64 {
+	return price*0.2
+}
+
+resultChannel := make(chan float64)
+go func(price float64, c chan float64) {
+	c <- calcTax(price)
+}(275, resultChannel) // Price and channel passed as arguments
+```
