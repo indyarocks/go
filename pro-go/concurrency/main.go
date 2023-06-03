@@ -4,13 +4,25 @@ import (
 	"fmt"
 )
 
+func receiveDispatches(dispatchChannel <-chan DispatchNotification) {
+	fmt.Println("Enumerate through channel values in for loop")
+	for order := range dispatchChannel {
+		fmt.Println("Dispatch to:", order.Customer, ":", order.Quantity, "x", order.Product.Name)
+	}
+}
+
 func main() {
 	fmt.Println("main function started")
 	CalcStoreTotal(Products)
 	//time.Sleep(time.Second * 5)
 
 	dispatchChannel := make(chan DispatchNotification, 100)
-	go DispatchOrder(dispatchChannel)
+
+	var sendOnlyChannel chan<- DispatchNotification = dispatchChannel
+	var receiveOnlyChannel <-chan DispatchNotification = dispatchChannel
+
+	go DispatchOrder(sendOnlyChannel)
+	receiveDispatches(receiveOnlyChannel)
 	//for {
 	//	if order, open := <-dispatchChannel; open {
 	//		fmt.Println("Order dispatched:", order.Customer, order.Name, order.Quantity)
@@ -19,10 +31,11 @@ func main() {
 	//		break
 	//	}
 	//}
-	fmt.Println("Enumerate through channel values in for loop")
-	for order := range dispatchChannel {
-		fmt.Println("Dispatch to:", order.Customer, ":", order.Quantity, "x", order.Product.Name)
-	}
-	fmt.Println("Channel has been closed")
+	//fmt.Println("Enumerate through channel values in for loop")
+	//for order := range dispatchChannel {
+	//	fmt.Println("Dispatch to:", order.Customer, ":", order.Quantity, "x", order.Product.Name)
+	//}
+	//fmt.Println("Channel has been closed")
+
 	fmt.Println("main function complete")
 }
