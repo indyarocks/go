@@ -33,6 +33,19 @@ func nonBlockingSendEnumerateProducts(productsChannel chan<- *Product) {
 	close(productsChannel)
 }
 
+func sendingToMultipleChannelEnumerateProducts(channel1, channel2 chan<- *Product) {
+	for _, p := range ProductList {
+		select {
+		case channel1 <- p:
+			fmt.Println("Sent to channel1", p.Name)
+		case channel2 <- p:
+			fmt.Println("Sent to channel2", p.Name)
+		}
+	}
+	close(channel1)
+	close(channel2)
+}
+
 func main() {
 	fmt.Println("main function started")
 	CalcStoreTotal(Products)
@@ -110,6 +123,18 @@ alldone:
 	time.Sleep(time.Second)
 	for p := range testProductChannel {
 		fmt.Println("Received", p.Name)
+	}
+
+	c1 := make(chan *Product, 2)
+	c2 := make(chan *Product, 1)
+	go sendingToMultipleChannelEnumerateProducts(c1, c2)
+
+	time.Sleep(time.Second)
+	for p := range c1 {
+		fmt.Println("Received on Channel 1", p.Name)
+	}
+	for p := range c2 {
+		fmt.Println("Received on Channel 2", p.Name)
 	}
 	fmt.Println("main function complete")
 }
