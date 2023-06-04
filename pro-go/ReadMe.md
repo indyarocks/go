@@ -110,3 +110,22 @@ func main() {
 }
 
 ```
+
+### Error interface
+Go provides a predefined interface named error that provides one way to create own error types(structs)
+```go
+  type error interface {
+	Error()
+}
+```
+This inteface requires errors to define a method named Error, which returns a string
+Example:
+```go
+  type CategoryError struct {
+    requestedCategory string	
+  }
+  
+  func(category *CategoryError) Error() string {
+    return "ERROR: " + category + "is invalid"	  
+  }
+```
