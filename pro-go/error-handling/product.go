@@ -18,6 +18,7 @@ var slice = ProductSlice{
 	{"iMac", "Desktop", 2099},
 	{"Xiomi", "Mobile", 499},
 	{"Dell", "Desktop", 899},
+	{"Home", "SelfCare", 0},
 }
 
 func ToCurrency(price float64) string {

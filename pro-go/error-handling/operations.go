@@ -4,13 +4,13 @@ type CategoryError struct {
 	requestedCategory string
 }
 
-func (category *CategoryError) Error() string {
-	return "ERROR: Category: " + category.requestedCategory + " doesn't exist."
-}
-
 type ProductCategoryTotal map[string]float64
 
 var ProductCategoryTotalMap = make(ProductCategoryTotal)
+
+func (category *CategoryError) Error() string {
+	return "ERROR: Category: " + category.requestedCategory + " doesn't exist."
+}
 
 func (slice ProductSlice) TotalCategoryPrice(category string) (total float64, err *CategoryError) {
 	var categoryHasProduct bool = false

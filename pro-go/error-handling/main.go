@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	var categories = []string{"Mobile", "Desktop", "Accessories", "Books"}
+	var categories = []string{"Mobile", "Desktop", "Accessories", "Books", "SelfCare"}
 
 	for _, category := range categories {
 		if total, err := slice.TotalCategoryPrice(category); err == nil {
