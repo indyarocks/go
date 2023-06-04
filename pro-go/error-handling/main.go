@@ -33,4 +33,15 @@ func main() {
 			fmt.Println("ERROR", message.Error)
 		}
 	}
+
+	fmt.Println("\n\nReceive total and generic error via channel=====")
+	totalChannelGenericError := make(chan ChannelMessageWithGenericError)
+	go slice.TotalCategoryPriceGenericErrorAsync(categories, totalChannelGenericError)
+	for message := range totalChannelGenericError {
+		if message.Error == nil {
+			fmt.Println("Category:", message.Category, "Total:", message.Total)
+		} else {
+			fmt.Println("ERROR", message.Error)
+		}
+	}
 }
