@@ -22,4 +22,15 @@ func main() {
 		}
 	}
 
+	fmt.Println("Receive total and error via channel=====")
+	totalChannel := make(chan ChannelMessage)
+	go slice.TotalCategoryPriceAsync(categories, chan<- ChannelMessage(totalChannel))
+
+	for message := range totalChannel {
+		if message.Error == nil {
+			fmt.Println("Category:", message.Category, "Total:", message.Total)
+		} else {
+			fmt.Println("ERROR", message.Error)
+		}
+	}
 }

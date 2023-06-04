@@ -8,6 +8,12 @@ type ProductCategoryTotal map[string]float64
 
 var ProductCategoryTotalMap = make(ProductCategoryTotal)
 
+type ChannelMessage struct {
+	Category string
+	Total    float64
+	Error    *CategoryError
+}
+
 func (category *CategoryError) Error() string {
 	return "ERROR: Category: " + category.requestedCategory + " doesn't exist."
 }
@@ -24,6 +30,18 @@ func (slice ProductSlice) TotalCategoryPrice(category string) (total float64, er
 		err = &CategoryError{requestedCategory: category}
 	}
 	return
+}
+
+func (slice ProductSlice) TotalCategoryPriceAsync(categories []string, channel chan<- ChannelMessage) {
+	for _, category := range categories {
+		total, err := slice.TotalCategoryPrice(category)
+		channel <- ChannelMessage{
+			Category: category,
+			Total:    total,
+			Error:    err,
+		}
+	}
+	close(channel)
 }
 
 func init() {
