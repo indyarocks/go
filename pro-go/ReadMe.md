@@ -61,3 +61,52 @@ go func(price float64, c chan float64) {
 	c <- calcTax(price)
 }(275, resultChannel) // Price and channel passed as arguments
 ```
+
+The `for` loop and `range` on chan ranges over just channel, it doesn't return index
+```go
+   // Range over channel just returns the message on channel
+   testProductChannel := make(chan *Product, 5)
+	go nonBlockingSendEnumerateProducts(chan<- *Product(testProductChannel))
+	time.Sleep(time.Second)
+	for p := range testProductChannel {
+		fmt.Println("Received", p.Name)
+	}
+	// Range over slice has index and object from slice
+	slice := []string{"Chandan", "Alok", "Ruby", "Darsh", "Tithi", "Sheenu"}
+	for i, str := range slice {
+		fmt.Println(i, str)
+    }
+```
+### Slice
+When defining a slice on a struct, the elements can be direct definition of struct as below:
+```go
+// You can edit this code!
+// Click here and start typing.
+package main
+
+import "fmt"
+
+type Product struct {
+	Name string
+}
+
+var pSlice = []*Product{
+	{"Chandan"},
+	{"Alok"},
+}
+
+var vSlice = []Product{
+	{"Chandan"},
+	{"Alok"},
+}
+
+func main() {
+	for _, p := range pSlice {
+		fmt.Println(p.Name)
+	}
+	for _, p := range vSlice {
+		fmt.Println(p.Name)
+	}
+}
+
+```

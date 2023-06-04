@@ -13,4 +13,13 @@ func main() {
 		}
 
 	}
+	// Using map
+	for _, category := range categories {
+		if total, ok := ProductCategoryTotalMap[category]; ok {
+			fmt.Println("Category:", category, "Total:", ToCurrency(total))
+		} else {
+			fmt.Println(&CategoryError{requestedCategory: category})
+		}
+	}
+
 }

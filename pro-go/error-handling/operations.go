@@ -8,7 +8,9 @@ func (category *CategoryError) Error() string {
 	return "ERROR: Category: " + category.requestedCategory + " doesn't exist."
 }
 
-//type ProductCategoryTotal map[string]float64
+type ProductCategoryTotal map[string]float64
+
+var ProductCategoryTotalMap = make(ProductCategoryTotal)
 
 func (slice ProductSlice) TotalCategoryPrice(category string) (total float64, err *CategoryError) {
 	var categoryHasProduct bool = false
@@ -22,4 +24,10 @@ func (slice ProductSlice) TotalCategoryPrice(category string) (total float64, er
 		err = &CategoryError{requestedCategory: category}
 	}
 	return
+}
+
+func init() {
+	for _, p := range slice {
+		ProductCategoryTotalMap[p.Category] += p.Price
+	}
 }
