@@ -9,6 +9,10 @@ type CategoryError struct {
 	requestedCategory string
 }
 
+func (category *CategoryError) Error() string {
+	return "ERROR: Category: " + category.requestedCategory + " doesn't exist."
+}
+
 type ProductCategoryTotal map[string]float64
 
 var ProductCategoryTotalMap = make(ProductCategoryTotal)
@@ -23,10 +27,6 @@ type ChannelMessageWithGenericError struct {
 	Category string
 	Total    float64
 	Error    error
-}
-
-func (category *CategoryError) Error() string {
-	return "ERROR: Category: " + category.requestedCategory + " doesn't exist."
 }
 
 func (slice ProductSlice) TotalCategoryPriceWithoutExplicitErrorStruct(category string) (total float64, err error) {

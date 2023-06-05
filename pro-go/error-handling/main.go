@@ -3,6 +3,17 @@ package main
 import "fmt"
 
 func main() {
+	defer func() {
+		if arg := recover(); arg != nil {
+			if err, ok := arg.(error); ok {
+				fmt.Println("Recovered", err.Error())
+			} else if str, ok := arg.(string); ok {
+				fmt.Println("Recovered", str)
+			} else {
+				fmt.Println("Error recovered")
+			}
+		}
+	}()
 	var categories = []string{"Mobile", "Desktop", "Accessories", "Books", "SelfCare"}
 
 	for _, category := range categories {
@@ -12,14 +23,6 @@ func main() {
 			fmt.Println(err)
 		}
 
-	}
-	// Using map
-	for _, category := range categories {
-		if total, ok := ProductCategoryTotalMap[category]; ok {
-			fmt.Println("Category:", category, "Total:", ToCurrency(total))
-		} else {
-			fmt.Println(&CategoryError{requestedCategory: category})
-		}
 	}
 
 	fmt.Println("Receive total and error via channel=====")
@@ -42,6 +45,19 @@ func main() {
 			fmt.Println("Category:", message.Category, "Total:", message.Total)
 		} else {
 			fmt.Println("ERROR", message.Error)
+		}
+	}
+
+	fmt.Println("Using map==========")
+	for _, category := range categories {
+		if total, ok := ProductCategoryTotalMap[category]; ok {
+			fmt.Println("Category:", category, "Total:", ToCurrency(total))
+		} else {
+			// NOTE: As CategoryError is a struct implementing Error interface
+			// Thus &CategoryError{requestedCategory: category} will print the error message
+			// i.e. returned string of Error() function
+			//fmt.Println(&CategoryError{requestedCategory: category})
+			panic(&CategoryError{requestedCategory: category})
 		}
 	}
 }

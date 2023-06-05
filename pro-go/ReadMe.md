@@ -129,6 +129,17 @@ Example:
     return "ERROR: " + category + "is invalid"	  
   }
 
+// NOTE: As CategoryError is a struct implementing Error interface
+// Thus &CategoryError{requestedCategory: category} will print the error message
+// i.e. returned string of Error() function
+func main() {
+  // This is equivalent to fmt.Println(string) 
+  // where string is returned value of Error() function above
+  fmt.Println(&CategoryError{requestedCategory: category})	 
+  
+}
+
+// =============== ANOTHER example
 package errors_test
 
 import (
