@@ -77,6 +77,8 @@ The `for` loop and `range` on chan ranges over just channel, it doesn't return i
 		fmt.Println(i, str)
     }
 ```
+
+NOTE: goroutine functions usually doesn't have return value, instead it sends the message via channel
 ### Slice
 When defining a slice on a struct, the elements can be direct definition of struct as below:
 ```go

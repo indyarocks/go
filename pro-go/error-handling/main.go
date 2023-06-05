@@ -7,6 +7,7 @@ func main() {
 		if arg := recover(); arg != nil {
 			if err, ok := arg.(error); ok {
 				fmt.Println("Recovered", err.Error())
+				//panic(err) // NOTE Raising panic inside recovery
 			} else if str, ok := arg.(string); ok {
 				fmt.Println("Recovered", str)
 			} else {
@@ -56,8 +57,20 @@ func main() {
 			// NOTE: As CategoryError is a struct implementing Error interface
 			// Thus &CategoryError{requestedCategory: category} will print the error message
 			// i.e. returned string of Error() function
-			//fmt.Println(&CategoryError{requestedCategory: category})
-			panic(&CategoryError{requestedCategory: category})
+			fmt.Println(&CategoryError{requestedCategory: category})
+			//panic(&CategoryError{requestedCategory: category})
 		}
+	}
+
+	fmt.Println("Check the recovery inside the goroutine ======")
+	recoveryChannel := make(chan CategoryCountMessage, 10)
+	go ProcessCategories(categories, chan<- CategoryCountMessage(recoveryChannel))
+	for msg := range recoveryChannel {
+		if msg.TerminalError == nil {
+			fmt.Println("Category:", msg.Category, "Total Count", msg.Count)
+		} else {
+			fmt.Println("####A terminal error occurred####")
+		}
+
 	}
 }

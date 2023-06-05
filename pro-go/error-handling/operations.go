@@ -82,6 +82,40 @@ func (slice ProductSlice) TotalCategoryPriceAsync(categories []string, channel c
 	close(channel)
 }
 
+// =====================
+type CategoryCountMessage struct {
+	Category      string
+	Count         int
+	TerminalError interface{}
+}
+
+func ProcessCategories(categories []string, outChan chan<- CategoryCountMessage) {
+	defer func() {
+		if arg := recover(); arg != nil {
+			fmt.Println("RECOVERED", arg)
+			outChan <- CategoryCountMessage{
+				TerminalError: arg,
+			}
+			close(outChan)
+		}
+	}()
+	channel := make(chan ChannelMessage, 10)
+	go slice.TotalCategoryPriceAsync(categories, channel)
+	for msg := range channel {
+		if msg.Error == nil {
+			outChan <- CategoryCountMessage{
+				Category: msg.Category,
+				Count:    int(msg.Total),
+			}
+			fmt.Println("Category", msg.Category, "Total:", msg.Total)
+		} else {
+			panic(msg.Error)
+		}
+	}
+}
+
+//=====================
+
 func init() {
 	for _, p := range slice {
 		ProductCategoryTotalMap[p.Category] += p.Price
