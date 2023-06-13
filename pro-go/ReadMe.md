@@ -173,3 +173,37 @@ func Example() {
 // Output: 1989-03-15 22:30:00 +0000 UTC: the file system has gone away
 }
 ```
+
+### %v specifierType of object:
+1. Use `%T` to get the Go type of a value - As we get the class of objects in other OOP languages
+2. Use `%#v` format that could be used to re-create the value in Go code file
+3. Use `%v` default format of the value
+4. Use `%+v` includes the field name
+
+```go
+pattern, compileErr := regexp.Compile("[A-z]oat")
+	question := "Is that a goat?"
+
+	if compileErr == nil {
+		fmt.Println(pattern.MatchString(question))
+		fmt.Printf("Type: %T\n", pattern)
+		fmt.Printf("Go code: %#v\n", pattern)
+		fmt.Printf("Recreate: %+v\n", pattern)
+	} else {
+		fmt.Println("Error: ", compileErr)
+	}
+	// Output 
+	true
+	Type: *regexp.Regexp
+    Go code: &regexp.Regexp{expr:"[A-z]oat", prog:(*syntax.Prog)(0x14000072240), onepass:(*regexp.onePassProg)(nil), numSubexp:0, maxBitStateLen:43690, subexpNames:[]string{""}, prefix:"", prefixBytes:[]uint8(nil), prefixRune:0, prefixEnd:0x0, mpool:0, matchcap:2, prefixComplete:false, cond:0x0, minInputLen:4, longest:false}
+    Recreate: [A-z]oat
+
+```
+
+### Format string for a struct
+User `Stringer` interface from `fmt` package
+```go
+type Stringer interface {
+	String() string
+}
+```

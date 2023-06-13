@@ -54,6 +54,9 @@ func main() {
 
 	if compileErr == nil {
 		fmt.Println(pattern.MatchString(question))
+		fmt.Printf("Type: %T\n", pattern)
+		fmt.Printf("Go code: %#v\n", pattern)
+		fmt.Printf("Recreate: %+v\n", pattern)
 	} else {
 		fmt.Println("Error: ", compileErr)
 	}
